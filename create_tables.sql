@@ -1,54 +1,77 @@
+SELECT name 
+FROM sys.databases;
+
+USE HospitalPerformance;
+GO
+
+SELECT DB_NAME() AS CurrentDatabase;
+SELECT name 
+FROM sys.tables;
+
+USE HospitalPerformance;
+GO
+
 -- 1. Hospital General Information
-CREATE TABLE HospitalGeneralInfo (
-    ProviderID VARCHAR(20) PRIMARY KEY,
+CREATE TABLE Hospital_General_Information (
+    ProviderID INT PRIMARY KEY,
     HospitalName NVARCHAR(255),
     Address NVARCHAR(255),
     City NVARCHAR(100),
     State NVARCHAR(50),
-    ZipCode VARCHAR(10),
+    ZIPCode NVARCHAR(20),
+    PhoneNumber NVARCHAR(50),
     HospitalType NVARCHAR(100),
-    Ownership NVARCHAR(100)
+    HospitalOwnership NVARCHAR(100),
+    EmergencyServices BIT
 );
 
--- 2. Complications and Deaths – Hospital
-CREATE TABLE ComplicationsDeathsHospital (
-    ProviderID VARCHAR(20),
+-- 2. Complications and Deaths
+CREATE TABLE Complications_and_Deaths_Hospital (
+    ProviderID INT,
+    MeasureID NVARCHAR(50),
     MeasureName NVARCHAR(255),
     Score FLOAT,
-    ComparisonToNational NVARCHAR(50),
-    FOREIGN KEY (ProviderID) REFERENCES HospitalGeneralInfo(ProviderID)
+    Sample NVARCHAR(50),
+    Footnote NVARCHAR(255),
+    PRIMARY KEY (ProviderID, MeasureID)
 );
 
--- 3. Unplanned Hospital Visits – Hospital
-CREATE TABLE UnplannedHospitalVisitsHospital (
-    ProviderID VARCHAR(20),
+-- 3. HVBP Clinical Outcomes
+CREATE TABLE hvbp_clinical_outcomes (
+    ProviderID INT,
+    MeasureID NVARCHAR(50),
     MeasureName NVARCHAR(255),
     Score FLOAT,
-    ComparisonToNational NVARCHAR(50),
-    FOREIGN KEY (ProviderID) REFERENCES HospitalGeneralInfo(ProviderID)
+    PRIMARY KEY (ProviderID, MeasureID)
 );
 
--- 4. HVBP – Clinical Outcomes Domain Scores
-CREATE TABLE HVBPClinicalOutcomes (
-    ProviderID VARCHAR(20),
-    DomainScore FLOAT,
-    FOREIGN KEY (ProviderID) REFERENCES HospitalGeneralInfo(ProviderID)
+-- 4. HVBP Person and Community Engagement
+CREATE TABLE hvbp_person_and_community_engagement (
+    ProviderID INT,
+    MeasureID NVARCHAR(50),
+    MeasureName NVARCHAR(255),
+    Score FLOAT,
+    PRIMARY KEY (ProviderID, MeasureID)
 );
 
--- 5. HVBP – Person and Community Engagement (HCAHPS)
-CREATE TABLE HVBPHCAHPS (
-    ProviderID VARCHAR(20),
-    DomainScore FLOAT,
-    FOREIGN KEY (ProviderID) REFERENCES HospitalGeneralInfo(ProviderID)
+-- 5. HVBP Total Performance Score (TPS)
+CREATE TABLE hvbp_tps (
+    ProviderID INT PRIMARY KEY,
+    TPS FLOAT,
+    DomainScore FLOAT
 );
 
--- 6. HVBP – Total Performance Score
-CREATE TABLE HVBPTotalPerformance (
-    ProviderID VARCHAR(20),
-    TotalPerformanceScore FLOAT,
-    PaymentAdjustment FLOAT,
-    FOREIGN KEY (ProviderID) REFERENCES HospitalGeneralInfo(ProviderID)
+-- 6. Unplanned Hospital Visits
+CREATE TABLE Unplanned_Hospital_Visits_Hospital (
+    ProviderID INT,
+    MeasureID NVARCHAR(50),
+    MeasureName NVARCHAR(255),
+    Score FLOAT,
+    PRIMARY KEY (ProviderID, MeasureID)
 );
-SELECT TABLE_NAME
-FROM INFORMATION_SCHEMA.TABLES
-WHERE TABLE_TYPE = 'BASE TABLE';
+USE HospitalPerformance;
+GO
+
+SELECT name 
+FROM sys.tables;
+
