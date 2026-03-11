@@ -14,3 +14,24 @@ SELECT COUNT(*) AS rows_in_complications FROM dbo.complications;
 SELECT COUNT(*) AS rows_in_clinical FROM dbo.clinical_cleaned;
 SELECT COUNT(*) AS rows_in_engagement FROM dbo.engagement_cleaned;
 SELECT COUNT(*) AS rows_in_tps FROM dbo.tps_cleaned;
+
+USE HospitalPerformance;
+
+SELECT COUNT(*) AS ComplicationsCount
+FROM dbo.complications;
+
+USE HospitalPerformance;
+
+USE HospitalPerformance;
+SELECT COLUMN_NAME
+FROM INFORMATION_SCHEMA.COLUMNS
+WHERE TABLE_NAME = 'complications';
+
+USE HospitalPerformance;
+
+SELECT facility_id, facility_name, COUNT(*) AS ComplicationsCount
+FROM dbo.complications
+GROUP BY facility_id, facility_name
+ORDER BY ComplicationsCount DESC;
+
+
